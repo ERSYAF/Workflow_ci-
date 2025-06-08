@@ -1,0 +1,5 @@
+name: MovieRecommenderCI
+conda_env: conda.yaml  # <-- Pastikan baris ini ada dan namanya benar
+entry_points:
+  main:
+    command: "python modelling.py"
