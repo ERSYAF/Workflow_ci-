@@ -98,7 +98,7 @@ if __name__ == "__main__":
     mlflow.set_experiment(experiment_name)
     
 
-    path_ke_dataset = "tmdb_movies_processed.csv"
+  path_ke_dataset = "MLProject/tmdb_movies_processed.csv"
     
 
     movie_data_with_soup = load_data_and_generate_soup(path_ke_dataset)
