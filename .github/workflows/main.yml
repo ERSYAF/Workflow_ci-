@@ -16,18 +16,17 @@ jobs:
       uses: conda-incubator/setup-miniconda@v3
       with:
         auto-update-conda: true
-        python-version: '3.12' 
+        python-version: '3.12'
 
     - name: Install MLflow CLI in base env
       run: pip install mlflow
 
     - name: Run MLflow Project
-      run: mlflow run MLProject 
-
-
+      run: mlflow run MLProject
 
     - name: Upload mlruns directory
-
+      if: always() 
+      uses: actions/upload-artifact@v4 
       with:
         name: mlruns-output
         path: MLProject/mlruns/
