@@ -16,7 +16,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-
     - name: Set up Conda Environment from conda.yaml
       uses: conda-incubator/setup-miniconda@v3
       with:
@@ -31,10 +30,8 @@ jobs:
         conda info
         which python
 
-
-    
-    - name: Run MLflow Project (without conda management)
-      run: mlflow run MLProject --no-conda 
+    - name: Run Python Training Script
+      run: python MLProject/modelling.py
 
 
     - name: Upload mlruns directory
