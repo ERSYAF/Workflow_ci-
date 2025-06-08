@@ -31,7 +31,7 @@ jobs:
       run: ls -R # Perintah 'ls -R' akan menampilkan semua file dan folder secara rekursif
 
     - name: Run Python Training Script
-      run: python MLProject/modelling.py # Kita biarkan ini dulu, mungkin akan gagal lagi
+      run: python MLProject/Modelling.pyi
 
     - name: Upload mlruns directory
       if: always()
