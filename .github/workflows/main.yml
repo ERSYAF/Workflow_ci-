@@ -21,10 +21,9 @@ jobs:
       with:
         auto-update-conda: true
         python-version: '3.12'
-        # Nama environment harus sama dengan 'name' di conda.yaml
         activate-environment: movie-recommender-ci-env 
-        # Path ke file environment Anda (jika ada di root)
-        environment-file: conda.yaml
+        # --- PERBAIKAN 1: Path ke conda.yaml ---
+        environment-file: MLProject/conda.yaml # Menunjuk ke file di dalam folder MLProject
         use-only-tar-bz2: true
 
     - name: Display Conda and Python info
@@ -32,14 +31,15 @@ jobs:
         conda info
         which python
 
-    # --- BAGIAN YANG DIPERBAIKI ---
+    # --- PERBAIKAN 2: Path ke modelling.py ---
     - name: Run Python Training Script
-      run: python modelling.py # <-- Menjalankan skrip dari root
+      run: python MLProject/modelling.py # Menjalankan skrip dari dalam folder MLProject
 
-    # --- BAGIAN YANG DIPERBAIKI ---
     - name: Upload mlruns directory
       if: always()
       uses: actions/upload-artifact@v4
       with:
         name: mlruns-output
-        path: mlruns/ # <-- Mengambil mlruns dari root
+        # mlruns akan dibuat di root repository karena CWD tidak berubah
+        # Jadi path ini seharusnya sudah benar
+        path: mlruns/
