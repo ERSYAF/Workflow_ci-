@@ -8,25 +8,38 @@ on:
 jobs:
   train-model:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Set up Python and Conda
+
+    - name: Set up Conda Environment from conda.yaml
       uses: conda-incubator/setup-miniconda@v3
       with:
         auto-update-conda: true
         python-version: '3.12'
+        activate-environment: movie-recommender-ci-env 
+        environment-file: MLProject/conda.yaml
+        use-only-tar-bz2: true
 
-    - name: Install MLflow CLI in base env
-      run: pip install mlflow
+    - name: Display Conda and Python info
+      run: |
+        conda info
+        which python
 
-    - name: Run MLflow Project
-      run: mlflow run MLProject
+
+    
+    - name: Run MLflow Project (without conda management)
+      run: mlflow run MLProject --no-conda 
+
 
     - name: Upload mlruns directory
-      if: always() 
-      uses: actions/upload-artifact@v4 
+      if: always()
+      uses: actions/upload-artifact@v4
       with:
         name: mlruns-output
         path: MLProject/mlruns/
