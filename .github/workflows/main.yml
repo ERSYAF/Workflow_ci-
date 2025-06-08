@@ -31,12 +31,11 @@ jobs:
         which python
 
     - name: Run Python Training Script
-      run: python MLProject/modelling.py
+      run: python modelling.py
 
 
     - name: Upload mlruns directory
-      if: always()
-      uses: actions/upload-artifact@v4
+  # ...
       with:
         name: mlruns-output
-        path: MLProject/mlruns/
+        path: mlruns/
