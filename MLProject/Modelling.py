@@ -77,21 +77,20 @@ if __name__ == "__main__":
     parser.add_argument(
         '--dataset_path',
         type=str,
-        default="Membangun_Model/tmdb_movies_automated_processed.csv",
+        default="tmdb_movies_automated_processed.csv",
         help='Path ke file dataset preprocessing hasil otomatisasi'
     )
 
     args = parser.parse_args()
     dataset_path = Path(args.dataset_path)
 
-    mlflow.set_experiment("Movie Recommender - Content Based")
-    mlflow.autolog(disable=True)  
+    mlflow.autolog(disable=True)
 
     print(f"MAIN: Mulai proses dengan dataset: {dataset_path}", flush=True)
     movie_data_with_soup = load_data_and_generate_soup(dataset_path)
 
     if movie_data_with_soup is not None and not movie_data_with_soup.empty:
-        with mlflow.start_run(run_name="ContentBasedRecommender_Run1"):
+        with mlflow.start_run(run_name="ContentBasedRecommender_Run1", nested=True):
             ngram = (1, 2)
             min_df = 3
             max_df = 0.7
