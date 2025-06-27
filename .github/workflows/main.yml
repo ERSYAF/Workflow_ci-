@@ -1,41 +1,31 @@
-name: MLflow CI Workflow
+name: MLflow Train Workflow
 
 on:
   push:
-    branches: [ main ]
+    paths:
+      - 'MLProject/**'
   workflow_dispatch:
 
 jobs:
-  train-model:
+  train:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash -l {0}
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+    - name: Checkout repo
+      uses: actions/checkout@v3
 
-    - name: Set up Conda Environment from conda.yaml
-      uses: conda-incubator/setup-miniconda@v3
+    - name: Setup Conda
+      uses: conda-incubator/setup-miniconda@v2
       with:
         auto-update-conda: true
-        python-version: '3.12'
-        activate-environment: movie-recommender-ci-env
-        # Asumsi conda.yaml ada di dalam MLProject
-        environment-file: MLProject/conda.yaml 
-        use-only-tar-bz2: true
+        python-version: 3.9
+        environment-file: MLProject/conda.yaml
+        activate-environment: movie-recommender-env
 
-    # --- LANGKAH DIAGNOSTIK BARU DITAMBAHKAN DI SINI ---
-    - name: List all files in the repository
-      run: ls -R # Perintah 'ls -R' akan menampilkan semua file dan folder secara rekursif
+    - name: Install MLflow
+      run: |
+        pip install mlflow
 
-    - name: Run training using MLflow
-      run: mlflow run MLProject --env-manager=local
-
-    - name: Upload mlruns directory
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: mlruns-output
-        path: mlruns/
+    - name: Run MLflow Project
+      run: |
+        mlflow run MLProject
