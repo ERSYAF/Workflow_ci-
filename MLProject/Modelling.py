@@ -64,21 +64,20 @@ def get_recommendations(movie_title, cosine_sim_matrix_input, data, movie_indice
 if __name__ == "__main__":
     print(">>> BLOK __main__ di Modelling.py TERPANGGIL <<<", flush=True)
 
-    # Gunakan autolog (tanpa start_run, tanpa log manual)
     mlflow.set_experiment("Movie Recommender - Autolog Only")
     mlflow.autolog()
 
-    dataset_path = "tmdb_movies_processed.csv"
+    # Gunakan path dataset relatif terhadap file ini
+    dataset_path = Path(__file__).parent / "tmdb_movies_processed.csv"
     movie_data_with_soup = load_data_and_generate_soup(dataset_path)
 
     if movie_data_with_soup is not None and not movie_data_with_soup.empty:
-        # Proses content-based (tidak akan tercatat di MLflow, hanya dummy yang dicatat)
         tfidf = TfidfVectorizer(stop_words='english', ngram_range=(1,2), min_df=3, max_df=0.7)
         tfidf_matrix = tfidf.fit_transform(movie_data_with_soup['soup'].fillna(''))
         cosine_sim_matrix = cosine_similarity(tfidf_matrix, tfidf_matrix)
 
-        joblib.dump(tfidf, "tfidf_vectorizer.pkl")
-        np.savez_compressed("cosine_matrix.npz", cosine_sim_matrix=cosine_sim_matrix)
+        joblib.dump(tfidf, Path(__file__).parent / "tfidf_vectorizer.pkl")
+        np.savez_compressed(Path(__file__).parent / "cosine_matrix.npz", cosine_sim_matrix=cosine_sim_matrix)
 
         indices = pd.Series(movie_data_with_soup.index, index=movie_data_with_soup['title']).drop_duplicates()
         test_movie_title = movie_data_with_soup['title'].iloc[0]
@@ -90,7 +89,7 @@ if __name__ == "__main__":
         else:
             print("Tidak ada rekomendasi ditemukan.")
 
-        # ✅ Dummy model agar autolog mencatat run
+        # Dummy model untuk mencatat log autolog
         print("\n>>> MEMULAI TRAINING DUMMY MODEL UNTUK AUTOLOG <<<", flush=True)
         iris = load_iris()
         X, y = iris.data, iris.target
