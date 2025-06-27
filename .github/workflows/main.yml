@@ -30,8 +30,8 @@ jobs:
     - name: List all files in the repository
       run: ls -R # Perintah 'ls -R' akan menampilkan semua file dan folder secara rekursif
 
-    - name: Run Python Training Script
-      run: python MLProject/Modelling.py
+    - name: Run training using MLflow
+      run: mlflow run MLProject --env-manager=local
 
     - name: Upload mlruns directory
       if: always()
