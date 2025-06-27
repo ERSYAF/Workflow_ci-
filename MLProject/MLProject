@@ -1,9 +1,9 @@
-name: movie_recommender
+name: movie-recommender
 
 conda_env: conda.yaml
 
 entry_points:
   main:
     parameters:
-      dataset_path: {type: str, default: "tmdb_movies_automated_processed.csv"}
+      dataset_path: {type: path}
     command: "python modelling.py --dataset_path {dataset_path}"
