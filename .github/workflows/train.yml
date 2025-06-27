@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repo
+    - name: Checkout repository
       uses: actions/checkout@v3
 
     - name: Setup Python
@@ -21,7 +21,9 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install mlflow
+        pip install mlflow pandas scikit-learn numpy joblib
 
-    - name: Run MLflow project (with local env manager)
-      run: mlflow run MLProject --env-manager=local
+    - name: Run MLflow project with local environment
+      run: |
+        cd MLProject
+        mlflow run . --env-manager=local
