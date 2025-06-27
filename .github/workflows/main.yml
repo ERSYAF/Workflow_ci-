@@ -22,7 +22,7 @@ jobs:
       run: |
         pip install mlflow pandas scikit-learn numpy joblib
 
-    - name: Run MLflow project with local environment
+    - name: Run MLflow project with dataset param
       run: |
         cd MLProject
         mlflow run . --env-manager=local -P dataset_path=tmdb_movies_processed.csv
