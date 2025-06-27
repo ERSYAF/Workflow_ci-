@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - 'MLProject/**'
-  workflow_dispatch:  # memungkinkan untuk dijalankan manual via tombol di GitHub
+  workflow_dispatch:
 
 jobs:
   train:
@@ -25,4 +25,4 @@ jobs:
     - name: Run MLflow project with local environment
       run: |
         cd MLProject
-        mlflow run . --env-manager=local
+        mlflow run . --env-manager=local -P dataset_path=tmdb_movies_processed.csv
