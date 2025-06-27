@@ -1,9 +1,7 @@
-name: movie-recommender
-
-conda_env: conda.yaml
+name: your_project_name
 
 entry_points:
   main:
     parameters:
-      dataset_path: {type: path}
+      dataset_path: {type: str}
     command: "python modelling.py --dataset_path {dataset_path}"
