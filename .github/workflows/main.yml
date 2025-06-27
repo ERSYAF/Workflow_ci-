@@ -4,12 +4,11 @@ on:
   push:
     paths:
       - 'MLProject/**'
-  workflow_dispatch:
+  workflow_dispatch:  # memungkinkan untuk dijalankan manual via tombol di GitHub
 
 jobs:
   train:
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
