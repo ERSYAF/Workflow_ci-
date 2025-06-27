@@ -1,4 +1,4 @@
-name: MLflow Train Workflow
+name: Train ML Model with MLflow
 
 on:
   push:
@@ -14,18 +14,14 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v3
 
-    - name: Setup Conda
-      uses: conda-incubator/setup-miniconda@v2
+    - name: Setup Python
+      uses: actions/setup-python@v4
       with:
-        auto-update-conda: true
-        python-version: 3.9
-        environment-file: MLProject/conda.yaml
-        activate-environment: movie-recommender-env
+        python-version: '3.9'
 
-    - name: Install MLflow
+    - name: Install dependencies
       run: |
         pip install mlflow
 
-    - name: Run MLflow Project
-      run: |
-        mlflow run MLProject
+    - name: Run MLflow project (with local env manager)
+      run: mlflow run MLProject --env-manager=local
